@@ -4,24 +4,28 @@ Projekt analizuje dane ofert Airbnb i buduje modele regresji przewidujące cenę
 
 ## Zakres projektu
 
-- analiza rozkładu cen i braków danych,
+- kontrola cen, identyfikatorów ofert i braków danych,
 - porównanie cen według typu pokoju i miasta,
 - inżynieria i analiza cech,
 - preprocessing danych numerycznych i kategorycznych,
 - trenowanie i porównanie modeli:
-  - Linear Regression,
+  - model bazowy przewidujący medianę,
+  - regresja liniowa,
   - Random Forest,
-  - XGBoost.
+  - XGBoost na logarytmie ceny,
+  - XGBoost z ważonym błędem bezwzględnym.
+
+Wyniki MAPE, MAE i R² są liczone na tym samym losowo wydzielonym zbiorze testowym (20% ofert, ziarno 42). Trening i ocena obejmują także najtańsze i najdroższe oferty. W treningu pominięto szacowany przychód i obłożenie, ponieważ ich iloraz odtwarza cenę.
+
+XGBoost z ważonym błędem bezwzględnym osiąga najniższe MAPE (29,93%). Pełne porównanie znajduje się w sekcji 8 notebooka.
 
 ## Dane
 
-Notebook oczekuje pliku `airbnb_train.csv` w katalogu Google Drive:
+Lokalnie notebook szuka pliku `data/airbnb_train.csv`, a następnie `airbnb_train.csv` obok notebooka. W Colab może go też odczytać z Google Drive.
 
 ```text
 /content/drive/MyDrive/data/airbnb_train.csv
 ```
-
-Po uruchomieniu notebooku należy autoryzować dostęp do Google Drive.
 
 ## Uruchomienie
 
@@ -40,20 +44,20 @@ Po uruchomieniu notebooku należy autoryzować dostęp do Google Drive.
    python -m pip install -r requirements.txt
    ```
 
-3. Umieść plik `airbnb_train.csv` obok `suml.ipynb` i uruchom notebook:
+   Jeśli import XGBoost na macOS zgłasza brak `libomp`, zainstaluj tę bibliotekę przez `brew install libomp`. [Instrukcja instalacji XGBoost](https://xgboost.readthedocs.io/en/stable/install.html)
+
+3. Umieść plik w `data/airbnb_train.csv` i uruchom notebook:
 
    ```bash
    jupyter notebook suml.ipynb
    ```
 
-Jeśli notebook uruchamiany jest lokalnie, komórka wczytująca dane odczyta plik z bieżącego katalogu. Jeśli wczytanie z bieżącego katalogu się nie powiedzie, należy wskazać inną lokalną ścieżkę.
-
 ### Google Colab
 
 1. Otwórz `suml.ipynb` w Google Colab.
-2. Zamontuj Google Drive.
-3. Umieść `airbnb_train.csv` we wskazanym katalogu.
-4. Uruchom wszystkie komórki notatnika.
+2. W razie potrzeby zainstaluj XGBoost poleceniem `%pip install "xgboost>=3.1"`.
+3. Umieść `airbnb_train.csv` we wskazanym katalogu Google Drive.
+4. Uruchom wszystkie komórki i autoryzuj dostęp do Google Drive, gdy notebook o to poprosi.
 
 ## Autorzy
 

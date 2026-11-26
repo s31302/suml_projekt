@@ -221,3 +221,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Lokalny zbiór treningowy
+/data/airbnb_train.csv
