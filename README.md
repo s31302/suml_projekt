@@ -19,6 +19,8 @@ Wyniki MAPE, MAE i R² są liczone na tym samym losowo wydzielonym zbiorze testo
 
 Regresja liniowa, Random Forest i oba warianty XGBoost korzystają z tych samych 20 cech wejściowych. Model bazowy przewiduje medianę cen ze zbioru treningowego. Pełne porównanie znajduje się w sekcji 8 notebooka. Ostatnia komórka zapisuje metryki i wspólną listę cech do [wyniki_modeli.txt](wyniki_modeli.txt).
 
+`airbnb_price_model.pkl` oraz `airbnb_train.csv` w google drive (ze wzgledu na wielkosc) -> https://drive.google.com/drive/u/0/folders/1sAYIrRYvIIAzBHzRSFXEY_8CqgRNsVDB
+
 ## Dane
 
 Lokalnie notebook szuka pliku `data/airbnb_train.csv`, a następnie `airbnb_train.csv` obok notebooka. W Colab może go też odczytać z Google Drive.
