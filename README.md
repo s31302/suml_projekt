@@ -17,7 +17,7 @@ Projekt analizuje dane ofert Airbnb i buduje modele regresji przewidujące cenę
 
 Wyniki MAPE, MAE i R² są liczone na tym samym losowo wydzielonym zbiorze testowym (20% ofert, ziarno 42). Trening i ocena obejmują także najtańsze i najdroższe oferty. W treningu pominięto szacowany przychód i obłożenie, ponieważ ich iloraz odtwarza cenę.
 
-XGBoost z ważonym błędem bezwzględnym osiąga najniższe MAPE (29,93%). Pełne porównanie znajduje się w sekcji 8 notebooka. Ostatnia komórka zapisuje metryki i listy cech wejściowych do [wyniki_modeli.txt](wyniki_modeli.txt).
+Regresja liniowa, Random Forest i oba warianty XGBoost korzystają z tych samych 20 cech wejściowych. Model bazowy przewiduje medianę cen ze zbioru treningowego. Pełne porównanie znajduje się w sekcji 8 notebooka. Ostatnia komórka zapisuje metryki i wspólną listę cech do [wyniki_modeli.txt](wyniki_modeli.txt).
 
 ## Dane
 

@@ -6,18 +6,14 @@ Liczba ofert testowych: 41772
 Ziarno podziału danych: 42
 
                  Model  MAPE (%)    MAE    R²
-  XGBoost (ważony MAE)     29.93  68.99  0.58
-    XGBoost (log ceny)     30.71  58.92  0.72
+  XGBoost (ważony MAE)     31.05  71.66  0.56
+    XGBoost (log ceny)     33.85  63.50  0.68
          Random Forest     51.12  74.85  0.64
      Linear Regression     56.18  83.08  0.58
 Model bazowy (mediana)     70.36 124.91 -0.13
 
-Cechy wejściowe przed kodowaniem
-
-Model bazowy (mediana) (0 cech)
-Model zwraca medianę cen ze zbioru treningowego.
-
-Regresja liniowa i Random Forest (20 cech)
+Wspólne cechy wejściowe przed kodowaniem (20)
+Regresja liniowa, Random Forest i oba warianty XGBoost
 - room_type
 - city
 - host_is_superhost
@@ -39,68 +35,5 @@ Regresja liniowa i Random Forest (20 cech)
 - review_scores_rating
 - reviews_per_month
 
-Oba warianty XGBoost (55 cech)
-- room_type
-- city
-- host_is_superhost
-- host_identity_verified
-- has_availability
-- accommodates
-- bathrooms
-- bedrooms
-- beds
-- latitude
-- longitude
-- availability_30
-- availability_60
-- availability_90
-- availability_365
-- number_of_reviews
-- number_of_reviews_ltm
-- number_of_reviews_l30d
-- review_scores_rating
-- reviews_per_month
-- property_type
-- host_response_time
-- host_neighbourhood
-- host_listings_count
-- host_total_listings_count
-- beds_per_bedroom
-- has_reviews
-- review_scores_accuracy
-- review_scores_cleanliness
-- review_scores_checkin
-- review_scores_communication
-- review_scores_location
-- review_scores_value
-- host_response_rate
-- host_acceptance_rate
-- host_since_year
-- first_review_year
-- last_review_year
-- amenity_count
-- amenity_Wifi
-- amenity_Kitchen
-- amenity_Air conditioning
-- amenity_Heating
-- amenity_Washer
-- amenity_Dryer
-- amenity_Pool
-- amenity_Hot tub
-- amenity_Free parking
-- amenity_Private entrance
-- amenity_Self check-in
-- amenity_Elevator
-- amenity_Dedicated workspace
-- amenity_Patio or balcony
-- amenity_Microwave
-- amenity_Dishwasher
-
-Cechy pochodne XGBoost
-- beds_per_bedroom: liczba łóżek podzielona przez liczbę sypialni powiększoną o 0,1.
-- has_reviews: informacja, czy oferta ma co najmniej jedną opinię.
-- host_response_rate i host_acceptance_rate: procenty przeliczone na ułamki.
-- Kolumny z końcówką _year: rok odczytany z daty.
-- amenity_count: liczba udogodnień. Kolumny amenity_* wskazują obecność udogodnienia.
-
+Model bazowy zwraca medianę cen ze zbioru treningowego (0 cech).
 Z treningu wyłączono identyfikatory oraz szacowany przychód i obłożenie.
