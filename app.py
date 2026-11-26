@@ -7,6 +7,15 @@ import streamlit as st
 
 st.set_page_config(page_title="Airbnb EDA", layout="wide")
 sns.set_style("whitegrid")
+st.markdown(
+    """
+    <style>
+        .stAppDeployButton, .stDeployButton { display: none; }
+        #MainMenu { visibility: hidden; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 @st.cache_data(show_spinner="Wczytywanie danych...")
 def load_from_gdrive(file_id: str) -> pd.DataFrame:
@@ -25,10 +34,35 @@ def load_from_path(path: str) -> pd.DataFrame:
 def load_from_upload(uploaded_file) -> pd.DataFrame:
     return pd.read_csv(uploaded_file)
 
+FEATURES_TO_KEEP = [
+    "room_type", "city", "accommodates", "bathrooms", "bedrooms", "beds",
+    "latitude", "longitude", "host_is_superhost", "host_identity_verified",
+    "has_availability", "availability_30", "availability_60", "availability_90",
+    "availability_365", "number_of_reviews", "number_of_reviews_ltm",
+    "number_of_reviews_l30d", "review_scores_rating", "reviews_per_month",
+    "price",
+]
+
 
 @st.cache_data
-def add_features(df: pd.DataFrame) -> pd.DataFrame:
+def preprocess_data(df: pd.DataFrame, apply_clean: bool) -> pd.DataFrame:
     df = df.copy()
+
+    if apply_clean:
+        df = df[FEATURES_TO_KEEP].copy()
+
+        low = df["price"].quantile(0.01)
+        high = df["price"].quantile(0.95)
+        df = df[(df["price"] > low) & (df["price"] <= high)]
+
+        num_cols = df.select_dtypes(include=["int64", "float64"]).columns
+        cat_cols = df.select_dtypes(include=["object", "bool"]).columns
+
+        for col in num_cols:
+            df[col] = df[col].fillna(df[col].median())
+        for col in cat_cols:
+            df[col] = df[col].fillna(df[col].mode()[0])
+
     df["beds_per_bedroom"] = df["beds"] / (df["bedrooms"] + 0.1)
     df["has_reviews"] = df["number_of_reviews"] > 0
     return df
@@ -64,8 +98,9 @@ if housing is None:
     st.info("Wybierz źródło danych w panelu bocznym po lewej, aby załadować zbiór.")
     st.stop()
 
-housing = add_features(housing)
-
+st.sidebar.header("2. Preprocessing")
+use_clean = st.sidebar.checkbox("Pokaż dane po preprocessingu (bez braków i outlierów)", value=True)
+housing = preprocess_data(housing, apply_clean=use_clean)
 
 # --- PANEL BOCZNY: FILTRY ---
 st.sidebar.header("2. Filtry")
